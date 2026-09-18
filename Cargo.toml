@@ -1,0 +1,27 @@
+[package]
+name = "arbre_genealogique"
+version = "0.2.0"
+edition = "2021"
+description = "Application familiale avec arbre généalogique"
+authors = ["MJacopoLEO <jacopo.leo@gmail.com>"]
+
+[dependencies]
+eframe = { version = "0.36", default-features = false, features = [
+    "accesskit",
+    "default_fonts",
+    "glow",
+    "wayland",
+    "x11",
+] }
+egui = "0.36"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+rfd = "0.17"
+printpdf = { version = "0.12", default-features = false }
+anyhow = "1"
+dirs = "7"
+
+[profile.release]
+lto = true
+codegen-units = 1
