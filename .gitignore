@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env*
+!.env.example
+.cursor/
+*.local
+*.tsbuildinfo
+supabase/.temp/
+supabase/.branches/
+*.pem
+*.key
+*.p12
+*.bundle
+security-reports/
