@@ -1,3 +1,5 @@
+import { normalizeLifeDate } from "./lifeDates";
+
 export const PERSON_SPAN = 4;
 export const DEFAULT_COUPLE_COLOR = "#829099";
 export const DEFAULT_CONNECTOR_LANE_GAP = 14;
@@ -38,6 +40,8 @@ export type PersonPhoto = {
 export type Person = {
   name: string;
   family_name: string;
+  birth_date?: string;
+  death_date?: string;
   labels: string[];
   photo?: PersonPhoto;
 };
@@ -378,6 +382,8 @@ export function normalizeFamily(family: FamilyDoc): FamilyDoc {
       ...person,
       name: safeText(person?.name ?? "", MAX_PERSON_NAME_CHARS),
       family_name: safeText(person?.family_name ?? "", MAX_PERSON_NAME_CHARS),
+      birth_date: normalizeLifeDate(person?.birth_date),
+      death_date: normalizeLifeDate(person?.death_date),
       labels: normalizeLabels(person?.labels ?? []),
     };
   }
@@ -507,6 +513,8 @@ export type ClipPerson = {
   origId: string;
   name: string;
   family_name: string;
+  birth_date?: string;
+  death_date?: string;
   labels: string[];
   photoData?: string;
   col?: number;

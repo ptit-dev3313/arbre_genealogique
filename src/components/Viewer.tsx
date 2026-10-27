@@ -1,4 +1,5 @@
 import { t } from "../lib/i18n";
+import { personLifeDates } from "../lib/lifeDates";
 import { couplesForPerson, parentCouples, personLabel, treesWithPerson } from "../lib/model";
 import { useApp } from "../store";
 import { PersonFace } from "./PersonFace";
@@ -57,6 +58,7 @@ export function ViewerSheet() {
         <PersonFace person={person} showPhoto={showPhotos} mini />
         <div>
           <strong>{personLabel(person)}</strong>
+          {personLifeDates(person).map((date) => <div className="muted" key={date}>{date}</div>)}
           <span className="muted">{person.labels.join(" · ")}</span>
         </div>
       </div>

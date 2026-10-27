@@ -697,6 +697,8 @@ export const useApp = create<Store>((set, get) => ({
         origId,
         name: person.name,
         family_name: person.family_name,
+        birth_date: person.birth_date,
+        death_date: person.death_date,
         labels: [...person.labels],
         photoData,
         col: pos?.col,
@@ -755,6 +757,8 @@ export const useApp = create<Store>((set, get) => ({
         persons[id] = {
           name: item.name,
           family_name: item.family_name,
+          birth_date: item.birth_date,
+          death_date: item.death_date,
           labels: item.labels,
           photo: item.photoData ? { data: item.photoData, rev: String(Date.now()) } : undefined,
         };

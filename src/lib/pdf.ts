@@ -12,6 +12,7 @@ import {
   type TreeLayout,
 } from "./layout";
 import { clampPhotoSize, type FamilyDoc } from "./model";
+import { personLifeDates } from "./lifeDates";
 
 const MARGIN = 28;
 const PHOTO_TOP = 12;
@@ -375,11 +376,15 @@ export async function downloadSchematicPdf(
     const maxW = rect.width - 12;
     const given = person?.name ?? "";
     const familyName = person?.family_name ?? "";
-    const givenSize = fitSize(textCtx, given, maxW, 13, true);
     ops.push(rgbOp(ink, true));
-    textLine(given, px(rect.x + rect.width / 2), py(rect.y + rect.height / 2 - 2), givenSize, true);
-    const familySize = fitSize(textCtx, familyName, maxW, 13, false);
-    textLine(familyName, px(rect.x + rect.width / 2), py(rect.y + rect.height / 2 + 14), familySize, false);
+    const dates = person ? personLifeDates(person) : [];
+    const lines = [given, familyName, ...dates];
+    const gap = Math.min(16, (rect.height - 16) / lines.length);
+    const startY = rect.y + rect.height / 2 - ((lines.length - 1) * gap) / 2 + 4;
+    lines.forEach((line, index) => {
+      const size = fitSize(textCtx, line, maxW, Math.min(index < 2 ? 13 : 9, gap), index === 0);
+      textLine(line, px(rect.x + rect.width / 2), py(startY + index * gap), size, index === 0);
+    });
   }
 
   const compressed = zlibSync(new TextEncoder().encode(ops.join("\n")), { level: 6 });

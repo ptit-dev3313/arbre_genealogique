@@ -1,6 +1,8 @@
 # Arbre généalogique
 
-Éditeur React + TypeScript : plusieurs familles et arbres, photos, import/export ZIP et PDF. La sauvegarde locale fonctionne sans compte ; Supabase permet la synchronisation et le partage entre comptes autorisés.
+Éditeur React + TypeScript : plusieurs familles et arbres, photos, dates de naissance et de décès, import/export ZIP et PDF. La sauvegarde locale fonctionne sans compte ; Supabase permet la synchronisation et le partage entre comptes autorisés.
+
+Les dates sont facultatives et se renseignent en ajoutant ou en modifiant une personne. Elles s’affichent sous le nom sur l’arbre (`°` naissance, `†` décès), ainsi que dans le PDF. Les anciennes fiches restent compatibles.
 
 ## Développement
 

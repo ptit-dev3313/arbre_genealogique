@@ -20,6 +20,7 @@ import {
 import { PERSON_SPAN, canEditCurrentTree, currentTree, occupies, type Placement } from "../lib/model";
 import { useApp } from "../store";
 import { PersonFace } from "./PersonFace";
+import { personLifeDates } from "../lib/lifeDates";
 
 type Live = {
   mode: "pan" | "move" | "marquee";
@@ -450,6 +451,8 @@ export function Viewport() {
                 top: py,
                 width: rect.width,
                 height: rect.height,
+                fontSize: rect.height < 64 && personLifeDates(person).length ? 10 : undefined,
+                ["--date-font-size" as string]: rect.height < 64 ? "8px" : "9px",
                 ["--photo-size" as string]: `${family.photo_size}px`,
               }}
             >
@@ -457,6 +460,7 @@ export function Viewport() {
               <div className="person-names">
                 <strong>{person.name}</strong>
                 <span>{person.family_name}</span>
+                {personLifeDates(person).map((date) => <small className="person-date" key={date}>{date}</small>)}
               </div>
             </div>
           );

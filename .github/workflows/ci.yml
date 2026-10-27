@@ -18,5 +18,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: npm test
       - run: npm audit --audit-level=high
-      - run: npm run build -- --base=/arbre_genealogique_privee/
+      - run: npm run build

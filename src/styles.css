@@ -911,6 +911,14 @@ h3 {
   box-shadow: none;
 }
 
+.person-date {
+  display: block;
+  font-size: var(--date-font-size, 9px);
+  line-height: 1.25;
+  color: #536574;
+  white-space: nowrap;
+}
+
 .photo-preview {
   width: 96px;
   height: 96px;

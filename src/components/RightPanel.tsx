@@ -1,5 +1,6 @@
 import { LabelInput } from "./LabelInput";
 import { t } from "../lib/i18n";
+import { personLifeDates } from "../lib/lifeDates";
 import {
   COUPLE_STATUS_KEYS,
   canDeletePerson,
@@ -86,6 +87,7 @@ export function RightPanel() {
       {person && personId && (
         <>
           <h3>{personLabel(person)}</h3>
+          {personLifeDates(person).map((date) => <div className="muted" key={date}>{date}</div>)}
           <LabelInput
             disabled={!canMutate}
             exclude={person.labels}

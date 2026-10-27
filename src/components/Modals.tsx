@@ -10,6 +10,7 @@ import {
 } from "../lib/cloud";
 import { importFamilyBytes } from "../lib/bundle";
 import { t } from "../lib/i18n";
+import { lifeDateError } from "../lib/lifeDates";
 import {
   canEditCardSize,
   canEditGap,
@@ -311,6 +312,8 @@ function PersonModal({ personId, childOf, partnerOf }: { personId?: string; chil
   const photoUrls = useApp((s) => s.photoUrls);
   const [name, setName] = useState(existing?.name ?? "");
   const [familyName, setFamilyName] = useState(existing?.family_name ?? sharedName);
+  const [birthDate, setBirthDate] = useState(existing?.birth_date ?? "");
+  const [deathDate, setDeathDate] = useState(existing?.death_date ?? "");
   const [labels, setLabels] = useState(existing?.labels ?? []);
   const [photo, setPhoto] = useState(existing?.photo);
   const [crop, setCrop] = useState<CropDraft>();
@@ -339,7 +342,12 @@ function PersonModal({ personId, childOf, partnerOf }: { personId?: string; chil
         e.preventDefault();
         try {
           const [n, f] = validatePersonNames(name, familyName);
-          const person: Person = { name: n, family_name: f, labels: normalizeLabels(labels), photo };
+          const dateError = lifeDateError(birthDate, deathDate);
+          if (dateError) throw new Error(t(lang, dateError));
+          const person: Person = {
+            name: n, family_name: f, labels: normalizeLabels(labels), photo,
+            birth_date: birthDate || undefined, death_date: deathDate || undefined,
+          };
           if (personId) updatePerson(personId, person);
           else {
             const id = addPerson(
@@ -370,6 +378,14 @@ function PersonModal({ personId, childOf, partnerOf }: { personId?: string; chil
       <label>
         {t(lang, "familyName")}
         <input value={familyName} onChange={(e) => setFamilyName(e.target.value)} />
+      </label>
+      <label>
+        {t(lang, "birthDate")}
+        <input type="date" value={birthDate} min="0001-01-01" max={deathDate || "9999-12-31"} onChange={(e) => setBirthDate(e.target.value)} />
+      </label>
+      <label>
+        {t(lang, "deathDate")}
+        <input type="date" value={deathDate} min={birthDate || "0001-01-01"} max="9999-12-31" onChange={(e) => setDeathDate(e.target.value)} />
       </label>
       <div className="tag-editor">
         {labels.map((label) => (
